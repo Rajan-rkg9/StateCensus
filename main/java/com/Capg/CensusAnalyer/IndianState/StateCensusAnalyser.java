@@ -16,7 +16,7 @@ public class StateCensusAnalyser {
 			throw new StateCensusException("Incorrect Type", StateCensusExceptionType.INCORRECT_TYPE);
 		try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath));) {
 			
-			Iterator<CSVStateCensus> censusCsvIterator = getIteratorFromCsv(reader, CSVStateCensus.class);
+			Iterator<CSVStateCensus> censusCsvIterator = new OpenCsvBuilder().getIteratorFromCsv(reader, CSVStateCensus.class);
 			return getCountFromIterator(censusCsvIterator);
 		} 
 		catch (IOException e) {
@@ -28,7 +28,7 @@ public class StateCensusAnalyser {
 			throw new StateCensusException("Incorrect Type", StateCensusExceptionType.INCORRECT_TYPE);
 		try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath));) {
 			
-			Iterator<CSVStateCode> censusCsvIterator = getIteratorFromCsv(reader, CSVStateCode.class);
+			Iterator<CSVStateCode> censusCsvIterator = new OpenCsvBuilder().getIteratorFromCsv(reader, CSVStateCode.class);
 			return getCountFromIterator(censusCsvIterator);
 		} 
 		catch (IOException e) {
@@ -36,21 +36,6 @@ public class StateCensusAnalyser {
 		}
 	}
 	
-	public <T> Iterator<T> getIteratorFromCsv(Reader reader, Class<T> csvBindedClass) throws StateCensusException {
-		try {
-			
-			CsvToBeanBuilder<T> csvToBeanBuilder = new CsvToBeanBuilder<>(reader);
-			csvToBeanBuilder.withType(csvBindedClass);
-			csvToBeanBuilder.withIgnoreLeadingWhiteSpace(true);
-			CsvToBean<T> csvToBean = csvToBeanBuilder.build();
-			Iterator<T> censusCsvIterator = csvToBean.iterator();
-			return censusCsvIterator;
-		} 
-		catch (RuntimeException e) {
-
-			throw new StateCensusException("Wrong Delimiter or Header", StateCensusExceptionType.SOME_OTHER_ERRORS);
-		}
-	}
 	
 	public <T> int getCountFromIterator(Iterator<T> csvIterator) {
 		Iterable<T> csvIterable = () -> csvIterator;

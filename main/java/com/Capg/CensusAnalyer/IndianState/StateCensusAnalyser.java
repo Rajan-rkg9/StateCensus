@@ -12,12 +12,12 @@ import com.opencsv.bean.CsvToBeanBuilder;
 
 public class StateCensusAnalyser {
 	
-	public int loadStateCensusData(String csvFilePath) throws StateCensusException {
+	public int loadStateCensusData(String csvFilePath , CsvBuilderType csvBuilderType)  throws StateCensusException {
 		if(!(csvFilePath.matches(".*\\.csv$")))
 			throw new StateCensusException("Incorrect Type", StateCensusExceptionType.INCORRECT_TYPE);
 		try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath));) {
 			
-			ICsvBuilder csvBuilder = CsvBuilderFactory.createBuilder();
+			ICsvBuilder csvBuilder = csvBuilderType==CsvBuilderType.OPEN_CSV?CsvBuilderFactory.createBuilderOpen():CsvBuilderFactory.createBuilderCommons();
 			Iterator<CSVStateCensus> censusCsvIterator = csvBuilder.getIteratorFromCsv(reader, CSVStateCensus.class);
 			return getCountFromIterator(censusCsvIterator);
 		} 
@@ -30,12 +30,12 @@ public class StateCensusAnalyser {
 		}
 	}
 	
-	public int loadStateCodeData(String csvFilePath) throws StateCensusException {
+	public int loadStateCodeData(String csvFilePath , CsvBuilderType csvBuilderType) throws StateCensusException {
 		if(!(csvFilePath.matches(".*\\.csv$")))
 			throw new StateCensusException("Incorrect Type", StateCensusExceptionType.INCORRECT_TYPE);
 		try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath));) {
 			
-			ICsvBuilder csvBuilder = CsvBuilderFactory.createBuilder();
+			ICsvBuilder csvBuilder = csvBuilderType==CsvBuilderType.OPEN_CSV?CsvBuilderFactory.createBuilderOpen():CsvBuilderFactory.createBuilderCommons();
 			Iterator<CSVStateCode> censusCsvIterator = csvBuilder.getIteratorFromCsv(reader, CSVStateCode.class);
 			return getCountFromIterator(censusCsvIterator);
 		} 

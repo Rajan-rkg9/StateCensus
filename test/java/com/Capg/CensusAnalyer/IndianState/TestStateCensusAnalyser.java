@@ -4,12 +4,12 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 public class TestStateCensusAnalyser {
-	public static final String RIGHT_CENSUS_CSV = "file/IndiaStateCensusData.csv";
+	public static final String RIGHT_CENSUS_CSV = "C:\\Users\\Rajan\\eclipse-workspace\\IndianState\\file\\IndiaStateCensusData.csv";
 	public static final String WRONG_CENSUS_CSV = "file/IndiaStateCensusDatae.csv";
 	public static final String WRONGTYPE_CENSUS_CSV = "file/IndiaStateCensusData-WrongType.pdf";
 	public static final String WRONGDELIMITER_CENSUS_CSV = "file/IndiaStateCensusData-WrongDelimiter.csv";
 	public static final String WRONGHEADER_CENSUS_CSV = "file/IndiaStateCensusData-WrongHeader.csv";
-	public static final String RIGHT_STATE_CODE_CSV = "file/IndiaStateCode.csv";
+	public static final String RIGHT_STATE_CODE_CSV = "C:\\Users\\Rajan\\eclipse-workspace\\IndianState\\file\\IndiaStateCode.csv";
 	public static final String WRONG_STATE_CODE_CSV = "file/IndiaStateCodetr.csv";
 	public static final String WRONGTYPE_STATE_CODE_CSV = "file/IndiaStateCode-WrongType.pdf";
 	public static final String WRONGDELIMITER_STATE_CODE_CSV = "file/IndiaStateCode-WrongDelimiter.csv";

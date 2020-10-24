@@ -7,7 +7,7 @@ public class CSVStateCensus {
 	public long population;
 	@CsvBindByName(column = "DensityPerSqKm", required = true)
 	public long density;
-	@CsvBindByName(column = "AreaPerSqKm", required = true)
+	@CsvBindByName(column = "AreaInSqKm", required = true)
 	public long area;
 	@Override
 	public String toString() {

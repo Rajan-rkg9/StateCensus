@@ -72,9 +72,9 @@ public class TestStateCensusForCommonsCsv {
 	}
 	
 	@Test
-	public void givenSortedOnStateCensusList_ShouldReturnCorrectFirstState() {
+	public void givenSortedOnStateNameCensusList_ShouldReturnCorrectFirstStateName() {
 		try {
-			String sortedStateCensusJson = new StateCensusAnalyser().getSortedCensusDataStateWise(RIGHT_CENSUS_CSV , CsvBuilderType.COMMONS_CSV);
+			String sortedStateCensusJson = new StateCensusAnalyser().getSortedCensusDataStateNameWise(RIGHT_CENSUS_CSV , CsvBuilderType.COMMONS_CSV);
 			CSVStateCensus[] censusCsv=new Gson().fromJson(sortedStateCensusJson, CSVStateCensus[].class);
 			assertEquals("Andhra Pradesh", censusCsv[0].state);
 		} catch (Exception e) {
@@ -83,9 +83,9 @@ public class TestStateCensusForCommonsCsv {
 	}
 	
 	@Test
-	public void givenSortedOnStateCensusList_ShouldReturnCorrectLastState() {
+	public void givenSortedOnStateNameCensusList_ShouldReturnCorrectLastStateName() {
 		try {
-			String sortedStateCensusJson =  new StateCensusAnalyser().getSortedCensusDataStateWise(RIGHT_CENSUS_CSV,CsvBuilderType.COMMONS_CSV);
+			String sortedStateCensusJson =  new StateCensusAnalyser().getSortedCensusDataStateNameWise(RIGHT_CENSUS_CSV,CsvBuilderType.COMMONS_CSV);
 			CSVStateCensus[] censusCsv=new Gson().fromJson(sortedStateCensusJson, CSVStateCensus[].class);
 			assertEquals("West Bengal", censusCsv[censusCsv.length-1].state);
 		} catch (StateCensusException e) {
@@ -142,6 +142,26 @@ public class TestStateCensusForCommonsCsv {
 		}
 		catch(StateCensusException e) {
 			assertEquals(StateCensusExceptionType.SOME_OTHER_ERRORS, e.exceptionType);
+		}
+	}
+	
+	@Test
+	public void givenSortedOnStateCodeCensusList_ShouldReturnCorrectFirstStateCode() {
+		try {
+			String sortedStateCensusJson = new StateCensusAnalyser().getSortedCensusDataStateCodeWise(RIGHT_STATE_CODE_CSV , CsvBuilderType.COMMONS_CSV);
+			CSVStateCode[] censusCsv=new Gson().fromJson(sortedStateCensusJson, CSVStateCode[].class);
+			assertEquals("AD", censusCsv[0].stateCode);
+		} catch (Exception e) {
+		}
+	}
+	
+	@Test
+	public void givenSortedOnStateCodeCensusList_ShouldReturnCorrectLastStateCode() {
+		try {
+			String sortedStateCensusJson =  new StateCensusAnalyser().getSortedCensusDataStateCodeWise(RIGHT_STATE_CODE_CSV,CsvBuilderType.COMMONS_CSV);
+			CSVStateCode[] censusCsv=new Gson().fromJson(sortedStateCensusJson, CSVStateCode[].class);
+			assertEquals("WB", censusCsv[censusCsv.length-1].stateCode);
+		} catch (StateCensusException e) {
 		}
 	}
 }

@@ -81,6 +81,23 @@ public class StateCensusAnalyser {
 			throw new StateCensusException("Incorrect CSV File", StateCensusExceptionType.CENSUS_FILE_PROBLEM);
 		}
 	}
+	
+	public String getSortedCensusDataPopulationDensityWise(String csvFilePath, CsvBuilderType csvBuilderType) throws StateCensusException {
+		try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath));) {
+			ICsvBuilder csvBuilder = csvBuilderType == CsvBuilderType.OPEN_CSV ? CsvBuilderFactory.createBuilderOpen()
+																			   : CsvBuilderFactory.createBuilderCommons();
+			List<CSVStateCensus> censusCsvList = csvBuilder.getListFromCsv(reader, CSVStateCensus.class);
+			Function<CSVStateCensus, Long> densityKey=census->census.density;
+			Comparator<CSVStateCensus> censusComparator=Comparator.comparing(densityKey);
+			this.sortStateCensusListPopulationWise(censusCsvList, censusComparator);
+			String sortedStateCensusToJson=new Gson().toJson(censusCsvList);
+			return sortedStateCensusToJson;
+		} 
+		catch (IOException e) {
+			throw new StateCensusException("Incorrect CSV File", StateCensusExceptionType.CENSUS_FILE_PROBLEM);
+		}
+	}
+	
 	public String getSortedCensusDataStateCodeWise(String csvFilePath, CsvBuilderType csvBuilderType) throws StateCensusException {
 		try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath));) {
 			ICsvBuilder csvBuilder = csvBuilderType == CsvBuilderType.OPEN_CSV ? CsvBuilderFactory.createBuilderOpen()
@@ -119,6 +136,7 @@ public class StateCensusAnalyser {
 	/**
 	 * SORTING METHOD
 	 * PopulationWise,UC5
+	 * PopulationDensityWise,UC6
 	 */
 	public void sortStateCensusListPopulationWise(List<CSVStateCensus> censusCsvList, Comparator<CSVStateCensus> censusComparator) {
 		for(int i=0;i<censusCsvList.size()-1;i++) 
@@ -135,6 +153,7 @@ public class StateCensusAnalyser {
 			}
 		}
 	}
+	
 	/**
 	 * SORTING METHOD
 	 * StateCodeWise

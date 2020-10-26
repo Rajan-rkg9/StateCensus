@@ -93,6 +93,27 @@ public class TestStateCensusForCommonsCsv {
 		}
 	}
 	@Test
+	public void givenSortedOnPopulationCensusList_ShouldReturnMostPopulatedStateName() {
+		try {
+			String sortedStateCensusJson = new StateCensusAnalyser().getSortedCensusDataStatePopulationWise(RIGHT_CENSUS_CSV , CsvBuilderType.COMMONS_CSV);
+			CSVStateCensus[] censusCsv = new Gson().fromJson(sortedStateCensusJson, CSVStateCensus[].class);
+			assertEquals("Uttar Pradesh", censusCsv[0].state);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Test
+	public void givenSortedOnPopulationCensusList_ShouldReturnLeastPopulatedStateName() {
+		try {
+			String sortedStateCensusJson = new StateCensusAnalyser().getSortedCensusDataStatePopulationWise(RIGHT_CENSUS_CSV , CsvBuilderType.COMMONS_CSV);
+			CSVStateCensus[] censusCsv = new Gson().fromJson(sortedStateCensusJson, CSVStateCensus[].class);
+			assertEquals("Sikkim", censusCsv[censusCsv.length-1].state);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	@Test
 	public void givenIndiaStateCodeCsv_ShouldReturnExactCount() {
 		try {
 			int recordsCount = new StateCensusAnalyser().loadStateCodeData(RIGHT_STATE_CODE_CSV , CsvBuilderType.COMMONS_CSV);

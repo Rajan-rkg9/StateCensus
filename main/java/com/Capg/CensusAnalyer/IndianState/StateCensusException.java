@@ -9,7 +9,7 @@ public class StateCensusException extends Exception{
 }
 
 enum StateCensusExceptionType{
-	CENSUS_FILE_PROBLEM, INCORRECT_TYPE,SOME_OTHER_ERRORS
+	CENSUS_FILE_PROBLEM, INCORRECT_TYPE,SOME_OTHER_ERRORS, PARSE_ERROR
 }
 
 

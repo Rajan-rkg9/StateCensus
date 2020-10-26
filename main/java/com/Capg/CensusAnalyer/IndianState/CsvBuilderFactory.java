@@ -6,6 +6,6 @@ public class CsvBuilderFactory {
 	}
 
 	public static ICsvBuilder createBuilderCommons() {
-		return new OpenCsvBuilder();
+		return new CommonsCsvBuilder();
 	}
 }

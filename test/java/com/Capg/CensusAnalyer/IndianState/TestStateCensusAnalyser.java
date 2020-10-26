@@ -3,6 +3,8 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+
+import com.google.gson.Gson;
 public class TestStateCensusAnalyser {
 	public static final String RIGHT_CENSUS_CSV = "C:\\Users\\Rajan\\eclipse-workspace\\IndianState\\file\\IndiaStateCensusData.csv";
 	public static final String WRONG_CENSUS_CSV = "file/IndiaStateCensusDatae.csv";
@@ -64,6 +66,28 @@ public class TestStateCensusAnalyser {
 		}
 		catch(StateCensusException e) {
 			assertEquals(StateCensusExceptionType.SOME_OTHER_ERRORS, e.exceptionType);
+		}
+	}
+	
+	@Test
+	public void givenSortedOnStateCensusList_ShouldReturnCorrectFirstState() {
+		try {
+			String sortedStateCensusJson = new StateCensusAnalyser().getSortedCensusDataStateWise(RIGHT_CENSUS_CSV , CsvBuilderType.OPEN_CSV);
+			CSVStateCensus[] censusCsv=new Gson().fromJson(sortedStateCensusJson, CSVStateCensus[].class);
+			assertEquals("Andhra Pradesh", censusCsv[0].state);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+	public void givenSortedOnStateCensusList_ShouldReturnCorrectLastState() {
+		try {
+			String sortedStateCensusJson =  new StateCensusAnalyser().getSortedCensusDataStateWise(RIGHT_CENSUS_CSV,CsvBuilderType.OPEN_CSV);
+			CSVStateCensus[] censusCsv=new Gson().fromJson(sortedStateCensusJson, CSVStateCensus[].class);
+			assertEquals("West Bengal", censusCsv[censusCsv.length-1].state);
+		} catch (StateCensusException e) {
+			e.printStackTrace();
 		}
 	}
 	

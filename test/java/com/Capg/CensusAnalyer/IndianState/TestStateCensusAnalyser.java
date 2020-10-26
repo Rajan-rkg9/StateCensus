@@ -136,6 +136,28 @@ public class TestStateCensusAnalyser {
 	}
 	
 	@Test
+	public void givenSortedOnStateAreaCensusList_ShouldReturnMostPopulatedStateNameByArea() {
+		try {
+			String sortedStateCensusJson = new StateCensusAnalyser().getSortedCensusDataStateAreaWise(RIGHT_CENSUS_CSV , CsvBuilderType.OPEN_CSV);
+			CSVStateCensus[] censusCsv = new Gson().fromJson(sortedStateCensusJson, CSVStateCensus[].class);
+			assertEquals("Rajasthan", censusCsv[0].state);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Test
+	public void givenSortedOnStateAreaCensusList_ShouldReturnLeastPopulatedStateNameByArea() {
+		try {
+			String sortedStateCensusJson = new StateCensusAnalyser().getSortedCensusDataStateAreaWise(RIGHT_CENSUS_CSV , CsvBuilderType.OPEN_CSV);
+			CSVStateCensus[] censusCsv = new Gson().fromJson(sortedStateCensusJson, CSVStateCensus[].class);
+			assertEquals("Goa", censusCsv[censusCsv.length-1].state);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
 	public void givenIndiaStateCodeCsv_ShouldReturnExactCount() {
 		try {
 			int recordsCount = new StateCensusAnalyser().loadStateCodeData(RIGHT_STATE_CODE_CSV , CsvBuilderType.OPEN_CSV);

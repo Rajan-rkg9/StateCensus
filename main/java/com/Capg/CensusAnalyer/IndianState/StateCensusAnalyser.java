@@ -98,6 +98,22 @@ public class StateCensusAnalyser {
 		}
 	}
 	
+	public String getSortedCensusDataStateAreaWise(String csvFilePath, CsvBuilderType csvBuilderType) throws StateCensusException {
+		try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath));) {
+			ICsvBuilder csvBuilder = csvBuilderType == CsvBuilderType.OPEN_CSV ? CsvBuilderFactory.createBuilderOpen()
+																			   : CsvBuilderFactory.createBuilderCommons();
+			List<CSVStateCensus> censusCsvList = csvBuilder.getListFromCsv(reader, CSVStateCensus.class);
+			Function<CSVStateCensus, Long> areaKey=census->census.area;
+			Comparator<CSVStateCensus> censusComparator=Comparator.comparing(areaKey);
+			this.sortStateCensusListPopulationWise(censusCsvList, censusComparator);
+			String sortedStateCensusToJson=new Gson().toJson(censusCsvList);
+			return sortedStateCensusToJson;
+		} 
+		catch (IOException e) {
+			throw new StateCensusException("Incorrect CSV File", StateCensusExceptionType.CENSUS_FILE_PROBLEM);
+		}
+	}
+	
 	public String getSortedCensusDataStateCodeWise(String csvFilePath, CsvBuilderType csvBuilderType) throws StateCensusException {
 		try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath));) {
 			ICsvBuilder csvBuilder = csvBuilderType == CsvBuilderType.OPEN_CSV ? CsvBuilderFactory.createBuilderOpen()
@@ -137,6 +153,7 @@ public class StateCensusAnalyser {
 	 * SORTING METHOD
 	 * PopulationWise,UC5
 	 * PopulationDensityWise,UC6
+	 * StateAreaWise,UC7
 	 */
 	public void sortStateCensusListPopulationWise(List<CSVStateCensus> censusCsvList, Comparator<CSVStateCensus> censusComparator) {
 		for(int i=0;i<censusCsvList.size()-1;i++) 
